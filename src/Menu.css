@@ -1,0 +1,95 @@
+/*
+ * Menu
+ */
+
+/***************
+ Jquery, CSS menubar: ul { li { a [ [ i ] ul ], a, ... }, li ... }
+
+  ul.spruits-menubar
+    li.dropdown 
+      a.dropbtn "File"
+      ul.dropdown-content
+        li a "New" i."fa fa-arrow-down/up ul."dropdown-content-submenu"
+        li a "Open"
+        li a "Save"
+        ...
+    li.dropdown
+    ...
+
+  ul."dropdown-content-submenu"
+    li a "Text"
+    li a "Doc"
+    li a "Picture" i ul."dropdown-content-submenu"
+*/
+
+.spruits-menubar, .spruits-menubar .dropdown-content, .spruits-menubar .dropdown-content-submenu { /* ul */
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #cccc00; /* #abc; */
+    border-bottom: 1px solid darkgray;
+}
+
+.spruits-menubar li { display:inline; }
+.dropdown-content > li, .dropdown-content-submenu > li { display:block; }
+
+/* li a, */ .dropbtn {
+    display: inline-block;
+    color: #333300; /* black; */
+    text-align: center;
+    padding: 2px 6px;
+    text-decoration: none;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #007fff; 
+  color: #fff;
+  border: 1px solid #003eff;
+  border-bottom: 0;
+  padding: 1px 6px;
+}
+
+li.dropdown { display: inline-block; }
+
+.spruits-menubar .dropdown-content /*, .spruits-menubar .dropdown-content-submenu*/ {
+    display: none;
+    position: absolute;
+    background-color: #ebebeb;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 111;
+    white-space:nowrap;
+}
+.spruits-menubar .dropdown-content-submenu {
+    display: none;
+    background-color: #ebebeb;
+    padding-left:1em;
+}
+
+.dropdown-content a { /* this replaces "li a" */
+    display: inline-block;
+    color: #222;
+    text-align: left;
+    padding: 4px 6px;
+    text-decoration: none;
+}
+
+/* this replaces li a:hover */
+.dropdown-content a:hover {background-color: #dadada; color:#000000;}
+.dropdown-content a:last-child, .dropdown-content a:hover:last-child { width:97%; padding-right:0; }
+
+.showdropdown .dropdown.show /*:hover*/ .dropdown-content { display: block; }
+
+.dropdown-content a + ul { display:none; }
+/*.dropdown-content a:hover + ul, .dropdown-content a + ul:hover {  display:block; position:absolute; z-index:1; left:160px; }*/
+
+/* Open submenu when hovering the arrow */
+/*.dropdown-content li:hover, .dropdown-content span + ul:hover { background-color: #dadada; }*/
+.spruits-menubar .show-dropdown-content {  display:block; /*margin-top:5px;*/ }
+
+
+.spruits-position-anchor { position:relative; }
+.spruits-menubar i { cursor:default; padding-right:5px; padding-left:20px; float:right; }
+
+.spruits-menubar .mark { border-top: 1px dotted #cdf; }
+

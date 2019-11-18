@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/spruits-2018.4.css">
+
+<style>
+body {margin:0;padding:1em;background:#ffffb0;}
+</style>
+<title>TouchManager</title>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/spruits2.js"></script>
+<script>
+"use strict"
+$(document).ready(function(){
+
+const Component = spruits2.Component;
+const Calendar = spruits2.Calendar;
+const TimePicker = spruits2.TimePicker;
+const InputDateAndTime = spruits2.InputDateAndTime;
+const Menu = spruits2.Menu;
+const Entity = spruits2.Entity;
+const TouchManager = spruits2.TouchManager;
+
+const testcases = [];
+
+//****************************************************************************************************************************************************************************
+const Testcase = function(tm) {
+  let $page = $("<div>", { class:"page" }).on("swipe-right", (e) => {
+    e.preventDefault();
+    $page.append($("<div>").html("swipe-right"));
+  }).on("swipe-left", (e) => {
+    e.preventDefault();
+    $page.append($("<div>").html("swipe-left"));    
+  });
+  
+  Component.call(this, { fieldName:tm.name });
+
+  this.$field.append(
+    $("<button>").html("slideIn").on("click",(e) => { e.preventDefault(); $page.append( $("<h4>").html("Do swipes") ).addClass("slideIn"); }),
+    $page
+  );
+};
+
+testcases.push(new Testcase( new TouchManager({ fieldName:"TouchManager 1" }) ));
+
+//****************************************************************************************************************************************************************************
+$("body").append(
+  "<h4>TouchManager</h4>", testcases.map(testcase => testcase.$field)
+);
+
+/*
+const TouchManager = function(args) {
+  let touch, isSwipe, log, set;
+	
+  isSwipe = function(touch) {
+    let 
+      duration, distanceX, distanceY, moves, numMoves, result, oneDirection, direction;
+        
+    moves = touch.moves;
+    duration = touch.end.time - touch.start.time;
+    distanceX = parseInt(touch.start.x - touch.end.x);
+    distanceY = parseInt(touch.start.y - touch.end.y);
+
+    oneDirection = function(moves, numMoves) {
+      let prevX, prevY, i, horizontal, minY, maxY;
+
+      if (numMoves <= 1) {
+        return { horizontal:{ oneDirection:false } };
+      }
+      prevX = moves[0].x;
+      minY = moves[0].y;
+      maxY = minY;
+      if (moves[1].y < minY) {
+        minY = moves[1].y;
+      } else if (moves[1].y > maxY) {
+        maxY = moves[1].y;
+      }
+      if (prevX <= moves[1].x) {
+        horizontal = { right:true, oneDirection:true };
+		
+        for (i=2; i<numMoves; i++) {
+          if (prevX > moves[i].x) {
+            horizontal.oneDirection = false;
+            break;
+          }
+          prevX = moves[i].x;
+		
+          if (moves[i].y < minY) {
+            minY = moves[i].y;
+          } else if (moves[i].y > maxY) {
+            maxY = moves[i].y;
+          }
+        } // for (i)
+      } else {
+        horizontal = { right:false, oneDirection:true };
+		
+        for (i=2; i<numMoves; i++) {
+          if (prevX < moves[i].x) {
+            horizontal.oneDirection = false;
+            break;
+          }
+          prevX = moves[i].x;
+		
+          if (moves[i].y < minY) {
+            minY = moves[i].y;
+          } else if (moves[i].y > maxY) {
+            maxY = moves[i].y;
+          }
+        } // for (i)
+      } // horizontal -> left
+		
+      horizontal.verticalAltitude = Math.abs(minY - maxY);
+		
+      return { horizontal:horizontal };
+    }; // oneDirection()
+	
+    result = (duration < 500);
+    if (result &&
+      (result = ((distanceX = Math.abs(distanceX))<300)) &&
+      (result = (distanceX >= 30)) &&
+      (result = ((numMoves = moves.length) <= 21)) &&
+      (result = (numMoves > 0))) {
+
+      direction = oneDirection(moves, numMoves);
+      if ((result=direction.horizontal.oneDirection) &&
+          (result=(direction.horizontal.verticalAltitude<30))) {
+    }}
+	
+    return { result:result, horizontal: direction.horizontal };
+  }; // isSwipe
+
+  Component.call(this, args);
+	
+  $("body")
+    .on("touchstart", function(e) {
+      touch = {
+        start: { time: Date.now(),
+                     x: e.changedTouches[0].screenX,
+                     y: e.changedTouches[0].screenY,
+                     numT:e.changedTouches.length
+                   },
+        moves: []
+      };
+    })
+    .on("touchmove", function(e) {
+	  touch.moves.push({ time: Date.now(),
+        x: e.changedTouches[0].screenX,
+        y: e.changedTouches[0].screenY,
+        numT: e.changedTouches.length
+      });
+    })
+    .on("touchend", function(e) {
+      let swipe;
+      
+      touch.end = {
+        time:Date.now(),
+        x: e.changedTouches[0].screenX,
+        y: e.changedTouches[0].screenY,
+        numT:e.changedTouches.length
+      };
+      swipe = isSwipe(touch);
+      if (swipe.result === true) {
+        if (swipe.horizontal.right === true) {
+          if (log !== undefined) {
+            log.append("swipe-right<br>");
+          }
+          $(e.target).trigger("swipe-right");
+        } else {
+          if (log !== undefined) {
+            log.append("swipe-left<br>");
+          }
+          $(e.target).trigger("swipe-left");
+        }
+      }
+    }) // on(touchend)
+    .on("touchcancel", function(e){
+      if (log !== undefined) {
+        log.append("Tcancel");
+      }
+    });
+    
+    set = function(propName, val) {
+      switch (propName) {
+      case "$log":
+        log = val;
+        break;
+      } // switch
+    }; // set
+    
+    this.set = set;
+}; // TouchManager
+
+*/
+
+
+}); //document.ready
+</script>
+</head>
+<body>
+</body>
+</html>

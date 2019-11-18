@@ -1,0 +1,52 @@
+/*
+ * Table
+ */
+.spruit-field th { font-weight:normal; text-align:left; }
+
+.spruit-table-rownum { counter-reset: rowNum; }
+.spruit-table-rownum > tr { counter-increment: rowNum; }
+.spruit-table-rownum > tr:nth-child(2) { counter-reset: rowNum; }
+.spruit-table-rownum > tr > td:first-child::before { display:inline-block;
+  content: counter(rowNum); min-width: 1em; margin-right: 0.5em; text-align:right; }
+.spruit-table-rownum > tr:first-child > th:first-child { padding-left:  1.5em; }
+
+.spruit-table-rownum-nocoltitle { counter-reset: rowNum; }
+.spruit-table-rownum-nocoltitle > tr,
+.spruit-table-rownum-nocoltitle > span { counter-increment: rowNum; }
+.spruit-table-rownum-nocoltitle > tr:first-child { counter-reset: rowNum; }
+.spruit-table-rownum-nocoltitle > tr > td:first-child::before,
+.spruit-table-rownum-nocoltitle > span > span:first-child::before {content: counter(rowNum); display: inline-block; width: 1em; margin-right:0.5em; text-align:right; }
+
+.spruit-table-cellnum { counter-reset: cellNum; }
+.spruit-table-cellnum > tr > td { counter-increment: cellNum; }
+.spruit-table-cellnum > tr > td::before { content: counter(cellNum); min-width: 2em; margin-left:1.5em; margin-right: 0.5em; /* color:#c0c0c0; */ }
+
+/* position view, row-number */
+.spruit-table-rownum .spruit-rownum-counter, 
+.spruit-table-rownum-nocoltitle .spruit-rownum-counter { counter-increment: rowNum;  min-width: 1em; margin-right: 0.5em; text-align:right; display:block; }
+.spruit-table-rownum .spruit-rownum-counter > :first-child::before,
+.spruit-table-rownum-nocoltitle .spruit-rownum-counter > :first-child::before { 
+  content:counter(rowNum);  min-width: 1em; margin-right: 0.5em; text-align:right;  }
+
+/* position view, cell-number */
+.spruit-table-cellnum .spruit-cellnum-counter { counter-increment: cellNum; }
+.spruit-table-cellnum .spruit-cellnum-counter::before { content: counter(cellNum); min-width: 2em; margin-left:1.5em; margin-right: 0.5em; }
+
+/*
+ * Responsive Table
+ */
+.rowtitle {
+  background: var(--backgroundColor);
+
+  border-bottom: 1px solid #999900;
+  border-right:  1px solid #999900;
+  border-radius: 0 0 4px 0;
+
+  text-align: center;
+  padding-left:0.5em;
+  margin-right: 1em;
+
+  display:block;
+  width:95%;
+}
+

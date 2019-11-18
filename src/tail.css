@@ -1,0 +1,73 @@
+/*
+ * Some common readability decorations 
+ */
+.spruit-screen > label {
+  display:block;
+  width:100%;
+  text-align:center;
+  border-bottom:2px solid #cccc00;
+  font-weight:bold;
+}
+.screen-row, .field-row, .field-row-nocolors {
+  overflow-x:auto;
+  padding:2px 0 5px 2px;
+  border-bottom:1px solid #cccc00;
+}
+
+.screen-row:nth-child(even) {
+  background:#fafad2;
+}
+.screen-row:nth-child(odd) {
+}
+
+.screen-row:nth-child(even) .spruit-field.even-color table tr:nth-child(odd) { background: #fcfcf4; }
+
+.screen-row:nth-child(even) .field-row:nth-child(odd)  { background: #fafa92; }
+.screen-row:nth-child(even) .field-row:nth-child(even) { background: #fafab2; }
+
+.screen-row.dotted, 
+.field-row.dotted, .field-row-nocolors.dotted { border-bottom-style: dotted; }
+
+.screen-row.dotted.last, 
+.field-row.dotted.last, .field-row-nocolors.dotted.last { border-bottom-style: unset; }
+
+/* gridview, 12 cols */
+.col-6 { width:100%; display:block; }
+.col-12 { width:100%; }
+@media only screen and (min-width:1000px) {
+  .col-6 { width:50%; display:inline-block; }
+}
+.spruit-field > label { display:block; }
+@media only screen and (min-width:600px) {
+  .spruit-field > label { 
+    display:inline-block; 
+    width:15em;
+    height:1.5em;
+    padding-top:0.5em;
+  }
+}
+
+.spruit-field > label + input,
+.spruits-inputdateandtime label + input {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.spruit-field input {
+    border: 0;
+    border-right: 1px dotted #999900;
+    border-bottom: 1px dotted #999900;
+    background: var(--backgroundColor);
+    border-radius: 4px;
+    font-weight: bold;
+    font-size:inherit;
+    font-family:inherit;
+}
+
+.ws-nowrap { white-space:nowrap; }
+.spruit-field > table { border-spacing:0.5em; white-space:nowrap; margin-left:0.5em; }
+.spruits-container.padding { padding-left:1em; }
+.strong { font-weight:bold; }
+.center { text-align:center; }
+.center-margin { margin:0 auto; }
+.spruit-field input.invalid, .spruit-field button.invalid { background-color:#ffb6b6; }

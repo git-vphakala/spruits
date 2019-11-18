@@ -1,0 +1,281 @@
+const Component = spruits2.Component;
+const Modal = spruits2.Modal;
+const Crud = spruits2.Crud;
+
+//****************************************************************************************************************************************************************************
+const testcases = [];
+
+
+//****************************************************************************************************************************************************************************
+let themodal;
+
+const notification = new Component({ fieldName:"notification" });
+notification.$field.append("<div>");
+notification.show = function(args) {
+  this.$field.children("div").html(args.text);
+};
+
+const Testcase = function(crud) {
+  let $button, stateShow = "show", stateHide = "hide";
+
+  themodal = crud.modal;
+
+  $button = $("<button>").html(stateShow).on("click", (e) => {
+    let currentState = $button.html(), newState = ( currentState === stateShow) ? stateHide : stateShow;
+    e.preventDefault();
+    
+    $button.html(newState);
+    crud.set(currentState);
+  });
+  
+  Component.call(this, { fieldName:crud.name });
+
+  this.$field.append($button, crud.$field, notification.$field);
+};
+const pm = {
+  get:function(propName) {
+    let entity = {
+      name:"crudTestEntity",
+      get:function(propName) {
+	switch(propName) {
+	case "valid":
+	  return { valid:true };
+	  break;
+	case "val":
+	  break;
+	case "key":
+	  break;
+	}
+      },
+      set:function(propName, val) {
+      },
+    };
+    
+    switch(propName){
+    case "entity":
+      return entity;
+      break;
+    }
+  },
+};
+
+// This overrides jquery ajax, which sends a message to the server and processes the reply.
+$.ajax = function(args) {
+  let response = { action:JSON.parse(args.data).action, resultCode:"1" };
+  let notificationMap = { 
+       "1":  "successful", 
+      "10": "exists already", 
+      "11": "not found",
+
+      "valid.valid !== true": "validation failed"
+  };
+  
+  console.log("$.ajax: args.data=" + args.data + "#END");
+
+  switch (response.action) {
+  case "C":
+    if (response.resultCode === "1") {
+      status = 1; // CREATE_OK;
+      themodal.set("close");
+    } else {
+      status = 2; // CREATE_NOK;
+    }
+    notification.show({ text: (response.action + ": " + notificationMap[response.resultCode]) });
+    break;
+  case "R":
+    if (response.resultCode === "1") {
+      status = 1; // READ_OK;
+      themodal.set("close");
+      pm.get("entity").set("val", response.data);
+    } else {
+      status = 2; // READ_NOK;
+    }
+    notification.show({ text: (response.action + ": " + notificationMap[response.resultCode]) });
+    break;
+  case "U":
+    break;
+  case "D":
+    break;
+  } // switch(response.action)
+};
+
+//****************************************************************************************************************************************************************************
+testcases.push(new Testcase( new Crud({ fieldName:"crud 1", insertLabel:false, $modalcontainer:$("body"), pm:pm }) ));
+
+//****************************************************************************************************************************************************************************
+$("body").append(
+  "<h4>Crud</h4>", testcases.map(testcase => testcase.$field)
+);
+
+/*
+//****************************************************************************************************************************************************************************
+const Crud = function(args) {
+  const 
+    CREATE_PENDING = 0, CREATE_OK = 1, CREATE_NOK = 2, CREATE_VALID_NOK = 3,
+    READ_PENDING = 0, READ_OK = 1, READ_NOK = 2;
+
+  let 
+    attrs, $modalcontainer, $pageboxes, crudObj, pm, entity, $log, notification, 
+    status, valid,
+
+    $icon, buttons = {}, $buttons, modalAttrs, modalId, modal, 
+
+    notificationMap = { 
+       "1":  "successful", 
+      "10": "exists already", 
+      "11": "not found",
+
+      "valid.valid !== true": "validation failed"
+    },
+
+    send, buttonClickHandler, modalClosed, getVal, setVal;
+
+  send = function(msg) {
+    $.ajax({
+      type: "POST",
+      url: "/crud",
+      contentType: "application/json",
+      data: JSON.stringify(msg),
+
+      success: function(response) { 
+        console.log("Crud.send.success, response=" + JSON.stringify(response) + "\n   entity.name=" + entity.name);
+
+        switch (response.action) {
+        case "C":
+          if (response.resultCode === "1") {
+            status = CREATE_OK;
+            modal.set("close");
+          } else {
+            status = CREATE_NOK;
+          }
+          notification.show({ text: (response.action + ": " + notificationMap[response.resultCode]) });
+          break;
+        case "R":
+          if (response.resultCode === "1") {
+            status = READ_OK;
+            modal.set("close");
+            entity.setProp("val", response.data);
+          } else {
+            status = READ_NOK;
+          }
+          notification.show({ text: (response.action + ": " + notificationMap[response.resultCode]) });
+          break;
+        case "U":
+          break;
+        case "D":
+          break;
+        } // switch(response.action)
+      }, // success
+      error: function(jqXHR, exception) { console.log(jqXHR.status); }
+    });
+  }; // send
+
+  buttonClickHandler = function() {
+    let val, action;
+
+    console.log("Crud.buttonClickHandler=" + $(this).html() + ", " + entity.name);
+
+    action = $(this).html();
+
+    switch(action) {
+    case "C":
+      valid = entity.get("valid");
+      if (valid.valid !== true) {
+        notification.show({ text: (action + ": " + notificationMap["valid.valid !== true"]) });
+        status = CREATE_VALID_NOK;
+        console.log("buttonClickHandler, valid=" + JSON.stringify(valid));
+      } else {
+        val = entity.get("val");
+        if ($log !== undefined) {
+          $log.append("Crud.buttonClickHandler=" + $(this).html() + ", " + entity.name + "<br>, val=" + JSON.stringify(val) + "<br>");
+        }
+        status = CREATE_PENDING;
+        send({ action:action, entity:entity.name, data:val });
+      }
+      break;
+
+    case "R":
+      val = entity.get("key");
+      if ($log !== undefined) {
+        $log.append("Crud.buttonClickHandler=" + $(this).html() + ", " + entity.name + "<br>, val=" + JSON.stringify(val) + "<br>");
+      }
+      status = READ_PENDING;
+      send({ action:action, entity:entity.name, data:val });
+      break;
+
+    case "U":
+      break;
+
+    case "D":
+      break;
+    } // switch(action)
+
+    return false;
+  };
+
+  modalClosed = function(e, modaltitle) {
+    entity = undefined;
+    crudObj.set("show");
+  };
+
+  if (args.fieldClass === undefined) args.fieldClass = "spruits-crud";
+
+  attrs =           args.attrs;
+  $modalcontainer = args.$modalcontainer;
+  $pageboxes =      args.$pageboxes;
+  pm =              args.pm;
+  notification =    args.notification;
+
+  Component.call(this, args);
+  crudObj = this;
+
+  buttons["create"] = $("<i>", { class:"crud-button" }).html("C").on("click", buttonClickHandler);
+  buttons["read"] =   $("<i>", { class:"crud-button" }).html("R").on("click", buttonClickHandler);
+  buttons["update"] = $("<i>", { class:"crud-button" }).html("U").on("click", buttonClickHandler);
+  buttons["delete"] = $("<i>", { class:"crud-button" }).html("D").on("click", buttonClickHandler);
+  $buttons = $("<div>", { class:"spruits-crud-modal-content" }).append(buttons.create, buttons.read, buttons.update, buttons.delete);
+
+  if (attrs !== undefined) modalAttrs = attrs.modal;
+  
+  // modalId = getId("spruits-crud");
+  modal = new Modal({ fieldName:"CRUD", $modalbody:$buttons, id:modalId, $container:$modalcontainer, attrs:modalAttrs, $pageboxes:$pageboxes, crud:crudObj }); //, closeCallback:modalClosed });
+
+  $icon = $("<i>", { class:"fa fa-database" }).on("click", function(){
+    entity = pm.get("entity");
+    modal.set("show");
+    return false;
+  });
+
+  getVal = function(propName) {
+    switch(propName) {
+    case "isHidden":
+      return crudObj.$field.hasClass("fadeOut");
+      break;
+    case "status":
+      return status;
+      break;
+    }
+  }; // getVal
+
+  setVal = function(propName, val) {
+    switch(propName) {
+    case "show":
+      crudObj.$field.removeClass("fadeOut").addClass("fadeIn");
+      break;
+    case "hide":
+      crudObj.$field.removeClass("fadeIn").addClass("fadeOut");
+      break;
+    case "$log":
+      $log = val;
+      break;
+    }
+  }; // setVal
+
+  this.$field.append($icon);
+  this.getVal = getVal;
+  this.setVal = setVal;
+
+  this.modal = modal; // XXX for testing, REMOVE
+}; // Crud
+
+*/

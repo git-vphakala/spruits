@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/spruits-2018.9.css">
+
+<style>
+body {margin:0;padding:1em;background:#ffffb0;}
+</style>
+<title>TabSheet</title>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/spruits2.js"></script>
+<script>
+"use strict"
+$(document).ready(function(){
+
+const Component =   spruits2.Component;
+const Container =   spruits2.Container;
+const DigitString = spruits2.DigitString;
+const InputDateAndTime =   spruits2.InputDateAndTime;
+const Table =       spruits2.Table;
+const Modal =       spruits2.Modal;
+const Calendar =    spruits2.Calendar;
+const TimePicker =  spruits2.TimePicker;
+const ResizeAgent = spruits2.ResizeAgent;
+const getId =       spruits2.getId;
+const mediaQuery =  spruits2.mediaQuery;
+const isFunction =  spruits2.isFunction;
+const isString =    spruits2.isString;
+const TabSheet =    spruits2.TabSheet;
+
+const testcases = [];
+
+//****************************************************************************************************************************************************************************
+const cal = new Calendar({ fieldName:"Calendar", $modalcontainer:$("body") });
+const tp = new TimePicker({ fieldName:"TimePicker", $modalcontainer:$("body") });
+const resizeAgent  = new ResizeAgent({ fieldName:"resizeAgent" });
+
+//****************************************************************************************************************************************************************************
+const Testcase = function(ts) {
+  let $getButton = $("<button>").html('tabsheet.get("val")'), $get = $("<div>");
+  
+  Component.call(this, { insertLabel:false });
+
+  $getButton.on("click", e => {
+    let val;
+    e.preventDefault();
+
+    val = ts.get("val");
+    $get.html("");
+    $get.append( $("<div>").append(Object.entries(val).map(nameAndVal => {
+      return $("<div>").html(nameAndVal[0] + " : " + (isString(nameAndVal[1]) ? nameAndVal[1] : JSON.stringify(nameAndVal[1])));
+    })));
+  });
+  
+  this.$field.append(ts.$field, $getButton, $get, "<hr/>");
+}
+
+//****************************************************************************************************************************************************************************
+const createPartiesScreen = function($screen, comps) {
+  $screen.append("This is the view of the Parties.", $("<div>").css({display:"flex"}).append(comps.map(comp => comp.$field)) );
+};
+
+const fields = [
+  [ "Number Masks", Table, { numRows:3, colTypes:[ { type:DigitString, args:{ size:"15" } } ] } ],
+  [ "Service ID", DigitString, { size:"5", attrs:{ label:{ style:"padding-bottom:0.5em;" } } } ],
+  [ "Valid Until", InputDateAndTime, { cal:cal, timepicker:tp, attrs:{ label:{ style:"padding-bottom:0.5em;" } } } ],
+  [ "Parties", TabSheet, {
+    fields:[[ "Tariff ID", DigitString, { size:"20" } ]], tabs:["a", "b", "c"], createScreen:createPartiesScreen, sheetName:"Party ",
+    attrs:{ fieldset:{style:"margin-left:1em;"}, buttons:{div:{style:"margin-left:1em;margin-top:0.5em;"}} }
+  } ]
+];
+const services = [ "1", "2", "3", "4", "5" ];
+
+const createScreen = function($screen, comps) {
+  $screen.append("This is the view of the Services.", $("<div>").css(mediaQuery() ? {display:"flex"} : {}).append(comps.map(comp => comp.$field)) );
+  
+  return (($screen) => { // The returned function is called after resize-event.
+    let ds = mediaQuery() ? {display:"flex"} : {display:""};
+    $screen.children("div").css(ds);
+  });
+};
+
+testcases.push(new Testcase(
+  new TabSheet({ fieldName:"Services",       fields:fields, tabs:services, createScreen:createScreen, sheetName:"Service ", attrs:{ fieldset:{ style:"margin-right:2em;" } } })
+));
+testcases.push(new Testcase(
+  new TabSheet({ fieldName:"Modal Services", fields:fields, tabs:services, createScreen:createScreen, sheetName:"Service ", attrs:{ fieldset:() => { return (mediaQuery() ? { style:"margin-right:2em;" } : { style:"" }); } },
+		 $modalcontainer:$("body"), responsive:true, resizeAgent:resizeAgent })
+));
+
+//****************************************************************************************************************************************************************************
+$("body").append(
+  "<h4>TabSheet</h4>", testcases.map(testcase => testcase.$field)
+);
+
+
+}); //document.ready
+</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,208 @@
+/*
+ * PageManager
+ */
+.page, .homepage { 
+  display:none;
+  left:1%;
+  width:98%;
+  position:fixed;
+  /*height:100%;*/
+  top:5px;
+  bottom:20px;
+  /*text-align:center;*/
+  overflow-y:auto;
+  overflow-x:hidden;
+  color:#333300;
+  background:#ffffb0;
+  border: 0 1% 0 1% solid #ffffb7;
+}
+
+.frame {
+  background: var(--backgroundColor);
+  background-image: -webkit-linear-gradient(top, var(--backgroundColor), #ffffaa);
+  background-image: -moz-linear-gradient(top, var(--backgroundColor), #ffffaa);
+  background-image: -ms-linear-gradient(top, var(--backgroundColor), #ffffaa);
+  background-image: -o-linear-gradient(top, var(--backgroundColor), #ffffaa);
+  background-image: linear-gradient(to bottom, var(--backgroundColor), #ffffaa);
+  text-shadow: 1px 1px 3px #666600;
+  font-family: Arial;
+  color: #333300;
+  /*font-size: 20px;*/
+  padding: 5px 20px 10px 20px;
+  text-decoration: none;
+  height:2em;
+  overflow:hidden;
+  position:relative;
+}
+
+.frame:hover {
+  background: #777700;
+  background-image: -webkit-linear-gradient(top, 777700, 7777aa);
+  background-image: -moz-linear-gradient(top, 777700, 7777aa);
+  background-image: -ms-linear-gradient(top, 777700, 7777aa);
+  background-image: -o-linear-gradient(top, 777700, 7777aa);
+  background-image: linear-gradient(to bottom, 777700, 7777aa);
+  text-decoration: none;
+  overflow:hidden;
+}
+.del {
+  position:absolute;
+  right:10px;
+  top:10px;
+  background:#F0E68C; /* khaki */
+  padding:0 6px;
+  border-radius:4px;
+}
+
+.slideIn { 
+  display:block;
+  -webkit-animation-name: slideIn;
+  -webkit-animation-duration: 2.4s;
+  animation-name: slideIn;
+  animation-duration: 0.4s
+}
+.slideOut {
+ display:block;
+ -webkit-animation-name: slideOut;
+ -webkit-animation-duration: 0.4s;
+ animation-name: slideOut;
+ animation-duration: 0.4s;
+ animation-fill-mode: forwards;
+}
+.slideInFromRight { 
+   display:block;
+   -webkit-animation-name: slideInFromRight;
+   -webkit-animation-duration: 2.4s;
+   animation-name: slideInFromRight;
+   animation-duration: 0.4s
+}
+.slideOutToLeft {
+  display:block;
+  -webkit-animation-name: slideOutToLeft;
+  -webkit-animation-duration: 0.4s;
+  animation-name: slideOutToLeft;
+  animation-duration: 0.4s;
+  animation-fill-mode: forwards;
+}
+/* Add Animation */
+@-webkit-keyframes slideIn {
+    from {left: -100%; } 
+    to {left: 0; }
+}
+
+@keyframes slideIn {
+    from {left: -100%;}
+    to {left: 0; }
+}
+@-webkit-keyframes slideOut {
+    from {left: 0; } 
+    to {left: 100%; }
+}
+
+@keyframes slideOut {
+    from {left: 0; }
+    to {left: 100%; }
+}
+
+@-webkit-keyframes slideInFromRight {
+    from {left: 100%; } 
+    to {left: 0; }
+}
+
+@keyframes slideInFromRight {
+    from {left: 100%;}
+    to {left: 0; }
+}
+
+@-webkit-keyframes slideOutToLeft {
+    from {left: 0; } 
+    to {left: -100%; }
+}
+
+@keyframes slideOutToLeft {
+    from {left: 0; }
+    to {left: -100%; }
+}
+
+.fadeIn { 
+  display:block;
+  -webkit-animation-name: fadeIn;
+  -webkit-animation-duration: 2.4s;
+  animation-name: fadeIn;
+  animation-duration: 0.4s
+}
+.fadeOut {
+ display:block;
+ -webkit-animation-name: fadeOut;
+ -webkit-animation-duration: 0.4s;
+ animation-name: fadeOut;
+ animation-duration: 0.4s;
+ animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes fadeIn {
+    from {opacity: 0; } 
+    to {opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1; }
+}
+@-webkit-keyframes fadeOut {
+    from {opacity: 1; } 
+    to {opacity: 0; }
+}
+
+@keyframes fadeOut {
+    from {opacity: 1; }
+    to {opacity: 0; }
+}
+
+.pagebox, .pagebox-active { 
+  width:5px;
+  height:5px;
+  color:#fff;
+  overflow-x:hidden;
+  display:inline-block;
+  background-color:#cccc00;
+  z-index:10;
+ margin-right:5px;
+}
+.pagebox {
+	border: 1px solid #ffffe0;
+}
+.pagebox-active {
+	background-color:var(--backgroundColor);
+	border: 1px solid #cccc00;
+}
+.pageboxes {
+    position:fixed;
+    bottom:5px;
+    z-index:10;
+    /* padding:0 0 0 5px; */
+    padding:0;
+    text-align:center;
+    margin:0;
+    list-style-type:none;
+    width:100%;
+}
+.pageboxes .navi-button {
+    display:inline-block;
+}
+.myhome, .arrow-swipe { 
+  font-size:100%;
+  color:#cccc00;
+}
+.myhome-2x {
+  font-size:150%;
+}
+
+.arrow-swipe {
+  padding-left:2em;
+}
+
+.spruit-field.pm .page.slideOut.hide,
+.spruit-field.pm .page.slideOutToLeft.hide {
+  display: none;
+}

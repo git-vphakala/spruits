@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/spruits-2018.4.css">
+
+<style>
+body {margin:0;padding:1em;background:#ffffb0;}
+</style>
+<title>InputDateAndTime</title>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/spruits2.js"></script>
+<script>
+"use strict"
+$(document).ready(function(){
+
+const Component = spruits2.Component;
+const Calendar = spruits2.Calendar;
+const TimePicker = spruits2.TimePicker;
+const InputDateAndTime = spruits2.InputDateAndTime;
+
+const testcases = [];
+
+const cal = new Calendar({ fieldName:"Calendar", $modalcontainer:$("body") });
+const tp = new TimePicker({ fieldName:"TimePicker", $modalcontainer:$("body") });
+
+const Testcase = function(inputDateAndTime) {
+  Component.call(this, { fieldName:inputDateAndTime.name });
+
+  this.$field = inputDateAndTime.$field;
+};
+
+testcases.push(new Testcase( new InputDateAndTime({ fieldName:"InputDateAndTime 1", cal:cal, timepicker:tp }) ));
+testcases.push(new Testcase( new InputDateAndTime({ fieldName:"InputDateAndTime 2", cal:cal, timepicker:tp, mode:"hhmmss" }) ));
+testcases.push(new Testcase( new InputDateAndTime({ fieldName:"InputDateAndTime 3", cal:cal, timepicker:tp, mode:"hhmmssmicros" }) ));
+
+//****************************************************************************************************************************************************************************
+$("body").append(
+  "<h4>InputDateAndTime</h4>", testcases.map(testcase => testcase.$field)
+);
+
+
+}); //document.ready
+</script>
+</head>
+<body>
+</body>
+</html>

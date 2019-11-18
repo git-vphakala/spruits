@@ -1,0 +1,21 @@
+/*
+ *   Notification
+ */
+.spruits-notification {
+  width:100%;
+  background:transparent;
+  text-align:center;
+  position:fixed;
+  bottom:3em;
+}
+.spruits-notification .content {
+  margin:0 auto;
+  color:#333300;
+  border:1px dotted #999900;
+  border-radius:8px;
+  width:max-content;
+  padding:1em;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+  background:#ebebeb;
+}
+

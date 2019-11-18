@@ -1,0 +1,81 @@
+/*
+ * spruits-timepicker
+ */
+.spruits-timepicker {
+   /* These are needed when slide in */
+   /*display:none;  
+   z-index: 101;
+   position:fixed;
+   top:0;
+   left:5px;
+   right:5px;*/
+
+   /* These are needed when not sliding in */
+   /* display:block; */
+   /* position:relative; */
+
+   /* border: 1px solid #abc;
+    border-radius: 4px;
+    color: #789;
+    background:#d0e0f0; */
+
+    display:block;
+    padding: 2em;
+    text-align:center;
+}
+.spruits-timepicker .close { position:absolute; right:1em; top:1em; }
+.spruits-timepicker .close:hover { color:#456; cursor:default; border:1px solid #89a; border-radius:33%; display:inline-block; width:1em;height:1em; right:0.75em; }
+
+.spruits-timepicker label {
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+.spruits-timepicker .timepicker-container {
+  display:table;
+  margin:0 auto;
+}
+.spruits-timepicker .ok-container {
+  margin:2em 1em 0 1em;
+  border:1px solid #edc46a;              /* #abc; */
+  border-radius: 4px;
+  background: #f0e68c;     /* khaki */   /*#abc;*/
+  color:#fff;
+}
+.spruits-timepicker .ok-container:hover { background:#bdb76b; /*#89a;*/ color:var(--backgroundColor); }
+
+.timepickerSlideIn { 
+  display:block;
+  -webkit-animation-name: timepickerSlideIn;
+  -webkit-animation-duration: 0.4s;
+  animation-name: timepickerSlideIn;
+  animation-duration: 0.4s;
+}
+.timepickerSlideOut {
+  display:block;
+ -webkit-animation-name: timepickerSlideOut;
+ -webkit-animation-duration: 0.8s;
+ animation-name: timepickerSlideOut;
+ animation-duration: 0.8s;
+ animation-fill-mode: forwards;
+}
+@-webkit-keyframes timepickerSlideIn {
+    from {top: -60%; opacity:0; } 
+    to {top: 0; opacity:1; }
+}
+
+@keyframes timepickerSlideIn {
+    from {top: -60%; opacity:0; }
+    to {top: 0; opacity:1; }
+}
+@-webkit-keyframes timepickerSlideOut {
+    from {top: 0; } 
+    to {top: -150%; }
+}
+
+@keyframes timepickerSlideOut {
+    from {top: 0; }
+    to {top: -150%; }
+}
+

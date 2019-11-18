@@ -1,0 +1,52 @@
+/*
+ * TabSheet
+ */
+/*
+.spruits-tabsheet .tabbuttons {
+    list-style-type:  none;
+    margin: 0;
+    padding: 5px 0;
+}
+
+.spruits-tabsheet .tabbutton {
+    display:  inline-block;
+    padding: 1px 6px;
+    margin: 0 5px 10px 0;
+    border: 1px solid #333300;
+    border-radius: 4px;
+    color: #333300;
+    background:  #cccc00;
+    width:1.5em;
+    text-align:center;
+}
+.spruits-tabsheet .tabbutton:hover {
+    background:  #333300;
+}
+.spruits-tabsheet .tabbutton:hover a {
+    color:  #fefe00;
+}
+
+.spruits-tabsheet .tabbutton a {
+    text-decoration:  none;
+}
+*/
+
+.tabsheet-buttons button {
+    width: 95%;
+    background:var(--backgroundColor);
+    border:0;
+    border-right:1px dotted #999900;
+    border-bottom:1px dotted #999900;
+    margin-bottom:0.5em;
+    margin-left:1em;
+    border-radius:4px;
+}
+
+@media only screen and (min-width:800px) {
+    .tabsheet-buttons button {
+        width:unset;
+        margin-right:0.5em;
+        margin-bottom:unset;
+        margin-left:unset;
+    }
+}

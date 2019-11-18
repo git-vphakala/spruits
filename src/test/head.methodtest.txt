@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/spruits-2018.4.css">
+
+<style>
+body {margin:0;padding:1em;background:#ffffb0;}
+</style>
+<title>#method-name#</title>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/spruits2.js"></script>
+<script>
+  const TABLE = spruits2.TABLE;
+  const TH =    spruits2.TH;
+  const TR  =   spruits2.TR;
+  const TD =    spruits2.TD;
+  const DIV =   spruits2.DIV;
+  const SPAN =  spruits2.SPAN;
+  const INPUT = spruits2.INPUT;
+  const I =     spruits2.I;
+  const isString = spruits2.isString;
+  var exports={};
+  const Component = spruits2.Component;
+  const Container = spruits2.Container;
+</script>
+<script src="js/#component-name#.js"></script>
+<script>
+"use strict"
+$(document).ready(function(){
+
+//****************************************************************************************************************************************************************************

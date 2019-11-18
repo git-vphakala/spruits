@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/spruits-2018.4.css">
+
+<style>
+body {margin:0;padding:1em;background:#ffffb0;}
+</style>
+<title>InputDate</title>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/spruits2.js"></script>
+<script>
+"use strict"
+$(document).ready(function(){
+
+const Component = spruits2.Component;
+const Calendar = spruits2.Calendar;
+const InputDate = spruits2.InputDate;
+
+const testcases = [];
+
+const cal = new Calendar({ fieldName:"Calendar 2", $modalcontainer:$("body") });
+
+const Testcase = function(inputDate) {
+  Component.call(this, { fieldName:cal.name });
+
+  this.$field = inputDate.$field;
+};
+
+testcases.push(new Testcase( new InputDate({ fieldName:"InputDate 1", cal:cal }) ));
+
+//****************************************************************************************************************************************************************************
+$("body").append(
+  "<h4>InputDate</h4>", testcases.map(testcase => testcase.$field)
+);
+
+
+}); //document.ready
+</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/spruits-2018.9.css">
+<style id="spruits-app-styles">
+</style>
+<title>RadioGroup</title>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/spruits2.js"></script>
+<script>
+"use strict"
+$(document).ready(function(){
+
+const Component = spruits2.Component;
+const AlphaNumericString = spruits2.AlphaNumericString;
+const InputDate = spruits2.InputDate;
+const isArray = spruits2.isArray;
+const isString = spruits2.isString;
+const isObject = (obj) => Object.prototype.toString.call(obj) === '[object Object]';
+const isFunction = spruits2.isFunction;
+const Calendar = spruits2.Calendar;
+
+const entity = new Component({ fieldName:"Entity" });
+entity.cal = new Calendar({ fieldName:"Calendar", $modalcontainer:$("body") });
+
+const testcases = [];
+
+//****************************************************************************************************************************************************************************
+const gender = new Component({ fieldName:"Gender" });
+
+gender.$field.append(
+  $("<div>").append(
+    $("<span>", { class:"rb-label" }).html("Male"),
+    $("<input>", { type:"radio", name:"Gender", value:"Male"   })),
+  $("<div>").append(
+    $("<span>", { class:"rb-label" }).html("Female"),
+    $("<input>", { type:"radio", name:"Gender", value:"Female"   })),
+  $("<div>").append(
+    $("<span>", { class:"rb-label" }).html("Other"),
+    $("<input>", { type:"radio", name:"Gender", value:"Other"   }))
+);
+
+$("#spruits-app-styles").append(
+    ".rb-label, .spruit-field > .rb-label {",
+       "display:inline-block;",
+       "padding-left:1em;",
+       "width:5em;",
+  "}"
+);
+gender.$field.children("div").children("span").addClass("rb-label");
+
+testcases.push(gender, { $field:$("<div>", { style:"height:1em" }) });
+
+//****************************************************************************************************************************************************************************
+let gender2, radios = [], buttonName, groupName="Gender2";
+
+function getRadioButtonArgs(buttonName) {
+  return { fieldName:buttonName, attrs:{ /*span:{ style:"display:block" },*/ label:{ class:"rb-label" } } };
+}
+function getRadioButtonInput(groupName, buttonName) {
+  return $("<input>", { type:"radio", name:groupName, value:buttonName, style:"margin-left:5px" });
+}
+
+buttonName = "Male";
+radios.push(new Component(getRadioButtonArgs(buttonName)));
+radios[0].$field.append(getRadioButtonInput(groupName, buttonName));
+
+buttonName = "Female";
+radios.push(new Component(getRadioButtonArgs(buttonName)));
+radios[1].$field.append(getRadioButtonInput(groupName, buttonName));
+
+buttonName = "Other";
+radios.push(new Component(getRadioButtonArgs(buttonName)));
+radios[2].$field.append(getRadioButtonInput(groupName, buttonName));
+
+gender2 = new Component({ fieldName:"Gender" });
+gender2.$field.append(radios.map(comp => comp.$field));
+gender2.$field.children(".spruit-field").addClass("radiobutton def");
+
+testcases.push(gender2, { $field:$("<div>", { style:"height:1em" }) });
+
+//****************************************************************************************************************************************************************************
+let gender3, radios3 = [];
+
+$("#spruits-app-styles").append(
+  /* The radiobutton */
+  '.radiobutton {',
+  'display: block;',
+  /*'cursor: pointer;',*/
+  '}',
+  
+  /* Hide the browser default radio button */
+  '.radiobutton input {',
+  'opacity: 0;',
+  'cursor: pointer;',
+  '}',
+
+  /* Unhide browser default radio button */
+  '.radiobutton.def input {',
+  'opacity:unset;',
+  'cursor:unset;',
+  '}',
+
+  /* Create a custom radio button */
+  '.rb-checkmark {',
+  'height: 1em;',
+  'width: 1em;',
+  'background-color: #ffff00;',
+  'display:inline-block;',
+  'border-radius: 50%;',
+  'border-bottom:1px solid #999900;',
+  'border-right:1px solid #999900;',
+  'margin-left:-1em;',
+  '}',
+
+  /* On mouse-over, add a dark background color */
+  '.radiobutton:hover input ~ .rb-checkmark {',
+  'background-color: #999900;',
+  '}',
+
+  /* Create the indicator (the dot/circle - hidden when not checked) */
+  '.rb-checkmark:after {',
+  'content: "";',
+  'display: inline-block;',
+  'background-color:#FFFF00;',
+  '}',
+
+  /* Show the indicator (dot/circle) when checked */
+  '.radiobutton input:checked ~ .rb-checkmark:after {',
+  'display: inline-block;',
+  'background-color:#333300;',  
+  '}',
+
+  /* Style the indicator (dot/circle) */
+  '.radiobutton .rb-checkmark:after {',
+  'width: 0.5em;',
+  'height: 0.5em;',
+  'border-radius: 50%;',
+  'margin-left:0.25em;',
+  'margin-bottom:0.125em;',
+  '}'
+);
+
+groupName = "Gender3";
+function handleClickCheckbox(e) {
+  let $input = $(this).prev();
+  
+  e.preventDefault();
+  $input[0].checked = $input[0].checked ? false : true;
+};
+
+buttonName = "Male";
+radios3.push(new Component(getRadioButtonArgs(buttonName)));
+radios3[0].$field.append(getRadioButtonInput(groupName, buttonName));
+
+buttonName = "Female";
+radios3.push(new Component(getRadioButtonArgs(buttonName)));
+radios3[1].$field.append(getRadioButtonInput(groupName, buttonName));
+
+buttonName = "Other";
+radios3.push(new Component(getRadioButtonArgs(buttonName)));
+radios3[2].$field.append(getRadioButtonInput(groupName, buttonName));
+
+gender3 = new Component({ fieldName:"Gender" });
+gender3.$field.append(radios3.map(comp => comp.$field));
+
+gender3.$field.children(".spruit-field")
+  .addClass("radiobutton")
+  .append( $("<span>", { class:"rb-checkmark" }).on("click", handleClickCheckbox) );
+gender3.$field.children(".spruit-field").children("input").css("margin", "0");
+
+testcases.push(gender3);
+
+//****************************************************************************************************************************************************************************
+// (attrs && attrs.radioButton && attrs.radioButton.input) ? attrs.radioButton.input.name : args.fieldName ->
+//   getAttr(attrs, args.fieldName, "radioButton", "input", "name")
+function getAttr(attrs, defVal) {
+  let val = attrs, attr = [].slice.call(arguments).slice(2), len = attr.length, i;
+
+  if (val !== undefined) {
+    for (i=0; i<len; i++) {
+      val = val[attr[i]];
+      if (val === undefined) break;
+    }
+  }
+
+  if (val === undefined) val = defVal;
+  
+  return val;
+}
+
+//****************************************************************************************************************************************************************************
+function RadioGroup(args) {
+  let
+  buttonNames = args.buttonNames,
+  custom = args.custom,
+  attrs = args.attrs,
+  groupName,
+  radios,
+  RadioButton;
+
+  RadioButton = function(args) {
+    let
+    $input,
+    handleClickCheckbox;
+
+    handleClickCheckbox = function(e) {
+      e.preventDefault();
+      $input[0].checked = $input[0].checked ? false : true;
+    };
+    
+    Component.call(this, args);
+    $input = $("<input>", { type:"radio", name:groupName, value:this.name });
+    this.$field.addClass("radiobutton" + ((custom === false) ? " def" : "")).append($input);
+    if (custom !== false) this.$field.append( $("<span>", { class:"rb-checkmark" }).on("click", handleClickCheckbox) );
+    $input.css(getAttr(attrs, { margin:"0" }, "radioButton", "input", "style")); // ("margin", "0");
+  };
+
+  Component.call(this, args);
+  groupName = getAttr(attrs, this.name, "radioButton", "input", "name");
+  buttonNames.map(buttonName => {
+    return new RadioButton({ fieldName:buttonName, attrs:{ label:{ class:"rb-label" } }});
+  }).forEach(comp => { this.$field.append(comp.$field); });
+}
+
+groupName = "Gender4";
+let gender4 = new RadioGroup({ fieldName:"Gender", buttonNames:[ "Male", "Female", "Other" ], attrs:{ radioButton:{ input:{ name:groupName }}} });
+testcases.push({ $field:$("<div>", { style:"height:1em" }) }, gender4);
+
+groupName = "Gender5";
+let gender5 = new RadioGroup({ fieldName:"Gender", buttonNames:[ "Male", "Female", "Other" ], attrs:{ radioButton:{ input:{ name:groupName }}}, custom:false });
+testcases.push({ $field:$("<div>", { style:"height:1em" }) }, gender5);
+
+// groupName = "Gender6";
+let gender6 = new RadioGroup({ fieldName:"Gender", buttonNames:[ "Male", "Female", "Other" ] });
+testcases.push({ $field:$("<div>", { style:"height:1em" }) }, gender6);
+
+groupName = "Gender7";
+let gender7 = new RadioGroup({ fieldName:"Gender", buttonNames:[ "Male", "Female", "Other" ], attrs:{ radioButton:{ input:{ name:groupName, style:{ "margin-left":"0" } }}} });
+testcases.push({ $field:$("<div>", { style:"height:1em" }) }, gender7);
+
+//****************************************************************************************************************************************************************************
+let pageSlideAttr = {attrs:{ page:{ slideInClass:"fadeIn", slideOutClass:"fadeOut", slideInFromRightClass:"fadeIn", slideOutToLeftClass:"fadeOut" }}};
+
+testcases.push(
+  { $field:$("<div>", { style:"height:1em" }) },
+  { $field:$("<div>").append("getAttr 1: radioButton.input.name=color:green").css(
+    getAttr({ radioButton:{ input:{ name:{ color:"green" }}} }, { color:"red" }, "radioButton", "input", "name")
+  )},
+  { $field:$("<div>").append("getAttr 2: attrs undefined, color:red").css(
+    getAttr(undefined, { color:"red" }, "radioButton", "input", "name")
+  )},
+  { $field:$("<div>").append("getAttr 3: attrs=" + JSON.stringify({})).css(
+    getAttr({}, { color:"red" }, "radioButton", "input", "name")
+  )},
+  { $field:$("<div>").append("getAttr 4: attrs=" + JSON.stringify({radioButton:{}})).css(
+    getAttr({ radioButton:{} }, { color:"red" }, "radioButton", "input", "name")
+  )},
+  { $field:$("<div>").append("getAttr 5: attrs=" + JSON.stringify({radioButton:{input:{}}})).css(
+    getAttr({ radioButton:{ input:{}} }, { color:"red" }, "radioButton", "input", "name")
+  )},
+  { $field:$("<div>").append("getAttr 6: attrs=" + JSON.stringify({radioButton:{input:{foo:"bar"}}})).css(
+    getAttr({ radioButton:{ input:{ foo:"bar" }} }, { color:"red" }, "radioButton", "input", "name")
+  )},
+  { $field:$("<div>").append("getAttr 7: attrs=" + JSON.stringify({radioButton:{input:{foo:"bar",name:{color:"green"}}}})).css(
+    getAttr({ radioButton:{ input:{ foo:"bar", name:{ color:"green" }}} }, { color:"red" }, "radioButton", "input", "name")
+  )},
+  { $field:$("<div>").append("getAttr 8: page slideInClass, attrs=" + JSON.stringify( pageSlideAttr ), "&nbsp;: ",
+			     getAttr({ radioButton:{ input:{ foo:"bar", name:{ color:"green" }}} }, "slideIn", "attrs", "page", "slideInClass"))
+  },
+  { $field:$("<div>").append("getAttr 8: page slideInClass, attrs=" + JSON.stringify( pageSlideAttr ), "&nbsp;: ",
+			     getAttr( pageSlideAttr, "slideIn", "attrs", "page", "slideInClass"))
+  }
+);
+
+//****************************************************************************************************************************************************************************
+function addCssRules(rules, $dest) {
+  let selector, propsObj, propsStr;
+
+  rules.forEach(rule => {
+    selector = Object.keys(rule)[0];
+    propsObj = Object.values(rule)[0];
+    propsStr = Object.entries(propsObj).reduce((all, propAndVal) => { return all + "  " + propAndVal[0] + ":" + propAndVal[1] + "\n"; }, "");
+    $dest.append(selector + ' {\n' + propsStr + '}\n');
+  });
+}
+let $cssRules = $("<pre id='spruits-app-styles-body'>");
+addCssRules([
+  { ".radiobutton-1": {
+    "display":      "block;",
+    "padding-left": "1em;",
+  }},
+  { ".radiobutton-1 input": {
+    "opacity": "0;"
+  }},
+  { ".radiobutton-1.def input": {
+    "opacity": "unset;"
+  }},
+  { ".rb-custombutton-1": {
+    "height":           "1em;",
+    "width":            "1em;",
+    "background-color": "#ffff00;",
+    "display":          "inline-block;",
+    "border-radius":    "50%;",
+    "border-bottom":    "1px solid #999900;",
+    "border-right":     "1px solid #999900;",
+    "margin-left":      "-1em;",
+  }},
+  { ".radiobutton-1:hover input ~ .rb-custombutton-1": {
+    "background-color": "#999900;"
+  }},
+  { ".radiobutton-1 .rb-custombutton-1:after": {
+    "content":          '"";',
+    "display":          "inline-block;",
+    "background-color": "#FFFF00;",
+    "width":         "0.5em;",
+    "height":        "0.5em;",
+    "border-radius": "50%;",
+    "margin-left":   "0.25em;",
+    "margin-bottom": "0.125em;",
+  }},
+  { ".radiobutton-1 input:checked ~ .rb-custombutton-1:after": {
+    "display":          "inline-block;",
+    "background-color": "#333300;",
+  }},
+], $cssRules);
+testcases.push({ $field:$cssRules });
+
+//****************************************************************************************************************************************************************************
+function printArgs(args) {
+  let
+  printVal = function(val, indent) {
+    let
+    printObj = function(val, indent) {
+      return Object.entries(val).reduce((all, nameAndVal) => { return all + indent + '"' + nameAndVal[0] + '"' + ":" + printVal(nameAndVal[1], "  ") + ",\n"; }, "");
+    }; // printObj
+    
+    if (isArray(val))
+      return "[ " + val.map((x, i) => { return printVal(x, indent); }) + " ]";
+    if (isString(val))
+      return '"' + val + '"';
+    if (isObject(val)) {
+      if (val.constructor.name === "Calendar")
+	return "entity.cal";
+      return "{\n" + printObj(val, indent + "    ") + indent + "  }"; // return indent + JSON.stringify(val);
+    }
+    if (isFunction(val))
+      return arguments[0].name;
+    return val;
+  }; // printVal
+  
+  return (Object.entries(args).reduce((all, nameAndVal) => {
+    return all + '  "' + nameAndVal[0] + '":' + printVal(nameAndVal[1], "") + ',\n';
+  }, "{\n") + "}");
+} // printArgs
+
+testcases.push(
+/*  { $field:$("<div>", { style:"height:1em" }) },
+  
+  {
+    $field:$("<pre>").text(printArgs({
+      fieldName:"Gender, v0.1",
+      buttonNames:[ "Male", "Female", "Other" ],
+    }))
+  },
+  {
+    $field:$("<pre>").text(printArgs({
+      fieldName:"Status",
+      options: { "Disabled":0, "Automatic":1, "Manual":2 }
+    }))
+  },
+  {
+    $field:$("<pre>").text(printArgs({
+      fieldName:"State",
+      options:{ "Installed":1, "Active":2, "Insufficient Funds":3, "Deactive":4, "Disconnected":5, "Pre-activated":6, "Passive":7, "PortedOut":8, "NotInrtBilling":9, "TP-active":21, 
+                "TP-Insufficient Funds":31 } 
+    }))
+  },
+  {
+    $field:$("<pre>").text(printArgs({
+      fieldName:"Group ID",
+      numRows:3, rowNum: true, colTitle:false, cellNum:false,
+      colTypes: [
+	{ type:AlphaNumericString, args:{ size:"12" } }
+      ],
+      attrs:{ span:{ style:"margin-right:0;" } },
+      forceTableview:true,
+      responsive:false,
+    }))
+  },*/
+  {
+    $field:$("<pre>").text(printArgs({
+      fieldName:"Promotional Discount",
+      numRows:1, rowNum:false, colTitle:true,
+      colTypes: [
+	{ title:"Start", type:InputDate, args:{ cal:entity.cal } },
+	{ title:"End",   type:InputDate, args:{ cal:entity.cal } }
+      ],
+    }))
+  }
+);
+
+//****************************************************************************************************************************************************************************
+$("body").append(
+  "<h4>RadioGroup</h4>", testcases.map(testcase => testcase.$field)
+);
+
+
+}); //document.ready
+</script>
+</head>
+<body>
+</body>
+</html>

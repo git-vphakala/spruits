@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<style>
+/* The radiobutton */
+.radiobutton {
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* Hide the browser default radio button */
+.radiobutton input {
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  height: 1em;
+  width: 1em;
+  background-color: #ffff00;
+  display:inline-block;
+  border-radius: 50%;
+  border-bottom:1px solid #999900;
+  border-right:1px solid #999900;
+}
+
+/* On mouse-over, add a grey background color */
+.radiobutton:hover input ~ .checkmark {
+    background-color: #999900;
+}
+
+/* When the radio button is checked, add a blue background
+.radiobutton input:checked ~ .checkmark {
+    background-color: #2196F3;
+}*/
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+    content: "";
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radiobutton input:checked ~ .checkmark:after {
+    display: inline-block;
+}
+
+/* Style the indicator (dot/circle) */
+.radiobutton .checkmark:after {
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  margin-left:0.25em;
+  margin-bottom:0.125em;
+}
+</style>
+<body>
+
+<h1>Custom Radio Buttons</h1>
+<label class="radiobutton">One
+  <input type="radio" checked="checked" name="radio" style="margin:0">
+  <span class="checkmark"></span>
+</label>
+<label class="radiobutton">Two
+  <input type="radio" name="radio" style="margin:0">
+  <span class="checkmark"></span>
+</label>
+<label class="radiobutton">Three
+  <input type="radio" name="radio" style="margin:0">
+  <span class="checkmark"></span>
+</label>
+<label class="radiobutton">Four
+  <input type="radio" name="radio" style="margin:0">
+  <span class="checkmark"></span>
+</label>
+
+</body>
+</html>

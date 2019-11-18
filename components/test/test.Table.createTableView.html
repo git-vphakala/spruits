@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/spruits-2018.4.css">
+
+<style>
+body {margin:0;padding:1em;background:#ffffb0;}
+</style>
+<title>createTableView</title>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/spruits2.js"></script>
+<script>
+  const TABLE = spruits2.TABLE;
+  const TH =    spruits2.TH;
+  const TR  =   spruits2.TR;
+  const TD =    spruits2.TD;
+  const DIV =   spruits2.DIV;
+  const SPAN =  spruits2.SPAN;
+  const INPUT = spruits2.INPUT;
+  const I =     spruits2.I;
+  const isString = spruits2.isString;
+  var exports={};
+</script>
+<script src="js/Table.js"></script>
+<script>
+"use strict"
+$(document).ready(function(){
+
+//****************************************************************************************************************************************************************************
+const Component = spruits2.Component;
+const Container = spruits2.Container;
+
+//****************************************************************************************************************************************************************************
+// createTableView
+const twsVals = [
+  ["11","222","33333"],
+  ["aa","bbb","ccccc"],
+  ["d1","d22","d3333"] 
+];
+const twsSrc = createComponentTable([ { type:Component, args:{} }, { type:Component, args:{} }, { type:Component, args:{} } ], 3, new Container());
+
+twsVals.map((row, rowI) => row.map((val, colI) => { twsSrc[rowI][colI].$field = val; }));
+//console.log(jstableToString(twsSrc));
+
+const rowTitle = [ "rowtitle1", "rowtitle22", "rowtitle333" ];
+const colTitle = [ "coltitle 1", "coltitle 22", "coltitle 333" ];
+const tws = [
+//  fieldName                   rowNum  colTitle cellNum rowTitle
+  [ "Column Title, Row Title",  false,  true,    false,  rowTitle,  colTitle ],
+  [ "Row Title",                false,  false,   false,  rowTitle,  undefined ],
+  [ "Column Title",             false,  true,    false,  undefined, colTitle ],
+  [ "Column Title, Row Number", true,   true,    false,  undefined, colTitle ],
+  [ "Row Number",               true,   false,   false,  undefined, colTitle ],
+  [ "Just table data",          false,  false,   false,  undefined, colTitle ],
+  [ "Cell Number",              false,  false,   true,   undefined, colTitle ],
+//  0                           1       2        3       4          5
+];
+const twsComponents = tws.map(val => {
+  let
+    i = 0,
+    table = new Component({ fieldName:val[i++] });
+
+  //              src     dest          rowNum    colTitle  cellNum   rowTitle, colTitles
+  createTableview(twsSrc, table.$field, val[i++], val[i++], val[i++], val[i++], val[i++]);
+
+  return table;
+});
+
+$("body").append(
+"<h4>createTableView</h4>",
+$("<ol>").append( twsComponents.map(comp => $("<li>").append(comp.$field)) )
+);
+}); //document.ready
+</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,56 @@
+/*
+ * spruits-spinner
+ */
+.spruits-spinner {
+    border: 1px solid #cccc00;         /*#abc;*/
+    padding: 5px;
+    border-radius: 4px;
+    position:relative;
+    display:inline-block;
+    font-size: 12px;
+    background:#fafad2;                /*#def;*/
+}
+
+.spruits-spinner.hide { display:none; }
+
+.spruits-spinner label {
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+    margin-bottom: 5px;
+    color: #bdb76b; /* darkkhaki */    /*#89a;*/
+}
+
+.spruits-spinner input {
+    text-align:center;
+    margin-top:5px;
+    margin-bottom:5px;
+}
+
+.numdigits-2 { width:1.5em; }
+.numdigits-6 { width:4.5em; }
+
+.spruits-spinner .arrow-up {
+	width: 0; 
+	height: 0; 
+	border-right:  1em solid transparent; /* left arrow slant */
+	border-left:   1em solid transparent; /* right arrow slant */
+	border-bottom: 1em solid #f0e68c;     /* bottom, add background color here:khaki */     /*#abc;*/
+	line-height: 0;
+}
+
+.spruits-spinner .arrow-down {
+  width: 0; 
+  height: 0; 
+  border-right: 1em solid transparent; /* left arrow slant */
+  border-left:  1em solid transparent; /* right arrow slant */
+  border-top:   1em solid #f0e68c;     /* top, add background color here */
+  line-height: 0;
+}
+
+.spruits-spinner .arrow-up:hover { border-bottom: 1em solid #bdb76b; /* darkkhaki */ }    /*#89a;*/
+.spruits-spinner .arrow-down:hover { border-top: 1em solid #bdb76b; }
+
+.spruits-spinner .arrow-up.hide { border-bottom: 1em solid #fafad2; } /* color must match with the background-color */ /*#def*/
+.spruits-spinner .arrow-down.hide { border-top: 1em solid #fafad2; }  /* color must match with the background-color */
+

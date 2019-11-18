@@ -1,0 +1,55 @@
+/*
+ * CRUD
+ */
+.spruits-crud {
+  display: none;
+  font-size: inherit;
+  font-family: inherit;
+  z-index: 3;
+  margin-top: 1.5em;
+  margin-right: 1em;
+
+  position: fixed;
+  right: 0;
+  color: #999900;
+}
+
+.spruits-crud.fadeIn {
+  display:block;
+  -webkit-animation-name: fadeIn;
+  -webkit-animation-duration: 2.4s;
+  animation-name: fadeIn;
+  animation-duration: 0.4s
+}
+
+.spruits-crud .fa-database  {
+  padding: 5px;
+  border-top: 1px solid #bbbb00;
+  border-right: 2px solid #bbbb00;
+  border-bottom: 1px solid #bbbb00;
+  border-radius: 50%;
+  background: var(--backgroundColor);
+}
+
+.spruits-modal .spruits-crud-modal-content {
+  padding: 15px;
+  text-align: center;
+}
+
+.spruits-modal .crud-button {
+  border-bottom: 1px solid #999900;
+  border-right: 1px solid #999900;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 4px;
+  background: var(--backgroundColor);
+  width: 3em;
+  display: inline-block;
+  text-align: center;
+}
+
+.spruits-modal .crud-button:hover {
+    background: #333300;
+    color: var(--backgroundColor);
+}
+

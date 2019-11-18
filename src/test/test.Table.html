@@ -1,0 +1,137 @@
+//****************************************************************************************************************************************************************************
+const isString =    spruits2.isString;
+const Component =   spruits2.Component;
+const Container =   spruits2.Container;
+const DigitString = spruits2.DigitString;
+const InputDate =   spruits2.InputDate;
+const Table =       spruits2.Table;
+
+//****************************************************************************************************************************************************************************
+// Table, Table View
+const tableTws = [
+  { fieldName:"Column Title, Row Title",  numRows:2, colTitle:true,  attrs:{ rowtitle:[ "rowtitle1", "rowtitle22" ] }, colTypes:[ { type:InputDate, args:{}, title:"Input Date", } ]},
+  { fieldName:"Row Title",                numRows:2,                 attrs:{ rowtitle:[ "rowtitle1", "rowtitle22" ] }, colTypes:[ { type:InputDate, args:{}, } ]},
+  { fieldName:"Column Title",             numRows:2, colTitle:true,                                                    colTypes:[ { type:InputDate, args:{}, title:"Input Date", } ]},
+  { fieldName:"Column Title, Row Number", numRows:2, colTitle:true,  rowNum:true,                                      colTypes:[ { type:InputDate, args:{}, title:"Input Date", } ]},
+  { fieldName:"Row Number",               numRows:2,                 rowNum:true,                                      colTypes:[ { type:InputDate, args:{} } ]},
+  { fieldName:"Just table data",          numRows:2,                                                                   colTypes:[ { type:InputDate, args:{} } ]},
+  { fieldName:"Cell Number",              numRows:2,                 cellNum:true,                                     colTypes:[ { type:InputDate, args:{} }, { type:InputDate, args:{} } ]},
+];
+const tableTwsComponents = tableTws.map(val => { 
+  return new Table({ fieldName:val.fieldName, numRows:2, colTitle:val.colTitle, attrs:val.attrs, rowNum:val.rowNum, cellNum:val.cellNum, colTypes:val.colTypes });
+});
+//****************************************************************************************************************************************************************************
+
+const getTablePwAttrsSpan = function(h) { return({ style:("position:relative;display:block;height:" + h + ";") }); }
+const tablePwRowTitles =    [ "rowtitle1", "rowtitle22" ];
+const getTablePwTable =     function(arg) { const n=[ undefined, "row", "cell" ]; return (arg ? { class:"spruit-table-" + n[arg] + "num" } : undefined); }
+const getTablePwTr =        function(tops) { return tops.map(val => isString(val) ? ("top:" + val + ";") : ({  "class":"spruit-rownum-counter", "style":"position:relative;top:" + val.top + ";" })); }
+const getTablePwTd =        function(lefts) { return lefts.map(val => { return {"class":"ws-nowrap spruit-cellnum-counter", "style":"position:absolute;left:" + val + ";"} }); }
+const getTablePwColtitle =  function(posiAttrs) { 
+  return ({ 
+    titles:[ "col title 1", "col title 2" ], 
+    posi:[ posiAttrs.map(val => ("display:inline-block;width:5em;left:" + val.left + ";top:" + val.top + ";")) ],
+  }); 
+}
+const tablePwPositionRowtitle = [ "left:3em;", "left:3em;" ];
+const tablePwColtypes =     [
+  { type:InputDate, args:{}, title:"Input Date 1", },
+  { type:InputDate, args:{}, title:"Input Date 2", }
+];
+const getTablePwAttrs = function(spanArg, rowtitleArg, tableArg, trArg, tdArg, coltitleArg) {
+  return {
+    span:spanArg ? getTablePwAttrsSpan(spanArg) : undefined,
+    rowtitle:rowtitleArg ? tablePwRowTitles : undefined,
+    table:{
+      position:{
+        create:   true,
+        table:    getTablePwTable(tableArg),
+        tr:       getTablePwTr(trArg),
+        td:       getTablePwTd(tdArg),
+        coltitle: coltitleArg !== undefined ? getTablePwColtitle(coltitleArg) : undefined, 
+        rowtitle: tablePwPositionRowtitle,
+  }}}; // position, table, return
+}
+
+//****************************************************************************************************************************************************************************
+// createPositionView
+const pws = [
+  { fieldName:"pw Column Title, Row Title",  attrs:{ span:getTablePwAttrsSpan("6em") }, posi:[true,  undefined, [ "1em", "3em" ], [ "8em", "20em" ], [ { left:"8em", top:"1em" }, { left:"20em", top:"1em" } ]] },
+  { fieldName:"pw Row Title",                attrs:{ span:getTablePwAttrsSpan("5em") }, posi:[true,  undefined, [ "0em", "2em" ], [ "8em", "20em" ], undefined] },
+  { fieldName:"pw Column Title",             attrs:{ span:getTablePwAttrsSpan("5em") }, posi:[false, undefined, [ "0em", "2em" ], [ "8em", "20em" ], [ { left:"8em", top:"0em" }, { left:"20em", top:"0em" } ]] },
+  { fieldName:"pw Column Title, Row Number", attrs:{ span:getTablePwAttrsSpan("6em") }, posi:[false, 1,         [ { top:"1em" }, { top:"3em" } ], [ "7em", "20em" ], [ { left:"8em", top:"1em" }, { left:"20em", top:"1em" } ]] },
+  { fieldName:"pw Row Number",               attrs:{ span:getTablePwAttrsSpan("5em") }, posi:[false, 1,         [ { top:"0em" }, { top:"2em" } ], [ "7em", "20em" ], undefined] },
+  { fieldName:"pw Just Table Data",          attrs:{ span:getTablePwAttrsSpan("5em") }, posi:[false, undefined, [ "0em", "2em" ], [ "8em", "20em" ], undefined] },
+  { fieldName:"pw Cell Number",              attrs:{ span:getTablePwAttrsSpan("5em") }, posi:[false, 2,         [ "0em", "2em" ], [ "5.5em", "17.5em" ], undefined] },
+];
+
+//****************************************************************************************************************************************************************************
+// Table, Position View
+const tablePws = [
+  { fieldName:pws[0].fieldName.slice(3), span:"6em", posi:pws[0].posi },
+  { fieldName:pws[1].fieldName.slice(3), span:"5em", posi:pws[1].posi },
+  { fieldName:pws[2].fieldName.slice(3), span:"5em", posi:pws[2].posi },
+  { fieldName:pws[3].fieldName.slice(3), span:"6em", posi:pws[3].posi },
+  { fieldName:pws[4].fieldName.slice(3), span:"5em", posi:pws[4].posi },
+  { fieldName:pws[5].fieldName.slice(3), span:"5em", posi:pws[5].posi },
+  { fieldName:pws[6].fieldName.slice(3), span:"5em", posi:pws[6].posi },
+];
+let tablePwsComponents = tablePws.map(arg => { 
+  let i = 0;
+  return new Table({ fieldName:arg.fieldName, numRows:2, colTypes:tablePwColtypes, attrs:getTablePwAttrs(arg.span, arg.posi[i++], arg.posi[i++], arg.posi[i++], arg.posi[i++], arg.posi[i++]) });
+});
+
+//****************************************************************************************************************************************************************************
+// View
+const fields = [
+ [ "Number Masks", Table, { numRows:3, colTypes:[ { type:DigitString, args:{ size:"15" } } ] } ],
+ [ "Service ID", DigitString, { size:"5", attrs:{ label:{ style:"padding-bottom:0.5em;" } } } ],
+];
+const tabs = [ "1", "2", "3", "4", "5" ];
+
+const view = new Container();
+fields.forEach(field => view.createField(field[0], field[1], field[2]));
+const viewComponents = Object.values(view.fields);
+
+function handleTabButtonClick(event, $tabName, container) { 
+  let current = $tabName.html(), srv;
+
+  event.preventDefault();
+  if (current === container.name) return;
+
+  if (current.length) {
+    // Store the view to the current service.        
+    srv = services.find((srv) => { return (srv.container.name === current) });
+    srv !== undefined ? srv.val = viewComponents.map(comp => { return comp.get("val"); }) : console.log("srv undefined");
+  }
+
+  $tabName.html(container.name); // Set the clicked as current and set the view to show the current.
+  srv = services.find(srv => srv.container.name === container.name);
+  viewComponents.map((comp, i) => ((srv !== undefined) && (srv.val !== undefined)) ? comp.set("val", srv.val[i]) : comp.set("empty"));
+}
+
+const services = tabs.map(name => { 
+  let 
+    container = new Container(name), // { name:name }), 
+    $button   = $("<button>").html(name).on("click", (e) => handleTabButtonClick(e, $serviceName, container));
+
+  fields.map(field => container.createField(field[0], field[1], { view:view } ));
+  return { container:container, button:$button, val:undefined };
+});
+
+const $serviceName = $("<span>").html("");
+const $legend =      $("<legend>").append( "Service ", $serviceName);
+const $fieldset =    $("<fieldset>").append( $legend, "This is the view of the services.", $("<div>").css({display:"flex"}).append(Object.values(view.fields).map(comp => comp.$field)) );
+const $buttons =     services.map(srv => srv.button);
+
+let service = new Component({ fieldName:"Services" });
+service.$field.append( $("<div>").css("padding-top","0.5em").append($buttons), $fieldset );
+services[0].button.trigger("click");
+
+//****************************************************************************************************************************************************************************
+$("body").append(
+  "<hr/>", "<h4>Table, Table View</h4>",   $("<ol>").append( tableTwsComponents.map(comp => $("<li>").append(comp.$field)) ),
+  "<hr/>", "<h4>Table, Position View</h4>",$("<ol>").append( tablePwsComponents.map(comp => $("<li>").append(comp.$field)) ),
+  "<hr/>", "<h4>View</h4>", service.$field,
+);
+

@@ -1,0 +1,49 @@
+/*
+ * spruits-calendar
+ */
+.spruits-calendar { /*display:none;  z-index: 101; background:#cde; 
+  position:fixed;
+  top:0;
+  left:5px;
+  right:5px;*/
+  text-align:center;
+}
+.spruits-calendar span:first-child { text-align:center; }
+.spruits-calendar span:nth-child(2) { float:right; padding-right:5px; padding-bottom:5px; }
+
+.calendarSlideIn { 
+  display:block;
+  -webkit-animation-name: calendarSlideIn;
+  -webkit-animation-duration: 0.4s;
+  animation-name: calendarSlideIn;
+  animation-duration: 0.4s;
+}
+
+.calendarSlideOut {
+  display:block;
+ -webkit-animation-name: calendarSlideOut;
+ -webkit-animation-duration: 0.8s;
+ animation-name: calendarSlideOut;
+ animation-duration: 0.8s;
+ animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes calendarSlideIn {
+    from {top: -50%; opacity:0; } 
+    to {top: 0; opacity:1; }
+}
+
+@keyframes calendarSlideIn {
+    from {top: -50%; opacity:0; }
+    to {top: 0; opacity:1; }
+}
+@-webkit-keyframes calendarSlideOut {
+    from {top: 0; } 
+    to {top: -80%; }
+}
+
+@keyframes calendarSlideOut {
+    from {top: 0; }
+    to {top: -80%; }
+}
+

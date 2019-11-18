@@ -1,0 +1,19 @@
+:root {
+    --backgroundColor:#ffff00;
+}
+html{ height:120%}
+html, body {
+    overflow-x:hidden;
+    overflow-y:hidden;
+}
+body {
+    width:100%; 
+    margin:0; padding:0;
+    position:relative;
+    background:#fffacd;
+    height:100%;
+}
+.hide {
+    display:none;
+}
+

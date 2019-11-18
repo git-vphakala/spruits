@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/spruits-2018.4.css">
+
+<style>
+body {margin:0;padding:1em;background:#ffffb0;}
+</style>
+<title>Component</title>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/spruits2.js"></script>
+<script>
+"use strict"
+$(document).ready(function(){
+
+const Component = spruits2.Component;
+
+const testcases = [];
+
+const Testcase = function(comp) {
+  Component.call(this, { fieldName:comp.name });
+
+  this.$field = $("<div>").append( comp.$field );
+};
+
+testcases.push(new Testcase( new Component({ fieldName:"Component 1", insertLabel:false, $field:"This is content." }) ));
+testcases.push(new Testcase( new Component({ fieldName:"Hello world!!!" }) ));
+
+//****************************************************************************************************************************************************************************
+$("body").append(
+  "<h4>Component</h4>", testcases.map(testcase => testcase.$field)
+);
+
+
+}); //document.ready
+</script>
+</head>
+<body>
+</body>
+</html>

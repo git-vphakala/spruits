@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/spruits-2018.4.css">
+
+<style>
+body {margin:0;padding:1em;background:#ffffb0;}
+</style>
+<title>Calendar</title>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/spruits2.js"></script>
+<script>
+"use strict"
+$(document).ready(function(){
+
+const Component = spruits2.Component;
+const Calendar = spruits2.Calendar;
+
+const comps = [];
+
+const Dest = function() {
+  this.selectedDay = new Component({ fieldName:"Selected date:" });
+  this.val = function(str) { this.selectedDay.$field.children("span").html(str); };
+
+  this.selectedDay.$field.append($("<span>"));
+};
+const Testcase = function(cal) {
+  Component.call(this, { fieldName:cal.name });
+  this.cal = cal;
+  this.dest = new Dest();
+
+  this.cal.set("val", Date.now());
+  this.cal.set("$dest", this.dest);
+  this.$field.append(this.cal.$field, this.selectedDay.$field);
+}
+comps.push(new Testcase( new Calendar({ fieldName:"Calendar 1" }) ));
+/*
+comps.push({
+  cal:new Calendar({ fieldName:"Calendar 1" }), dest:new Dest()
+});
+comps[0].cal.set("val", Date.now());
+comps[0].cal.set("$dest", comps[0].dest);
+*/
+
+//****************************************************************************************************************************************************************************
+$("body").append(
+  "<h4>Calendar</h4>", comps.map(testcase => testcase.$field)
+  //comps.map(val => { return $("<div>").append(val.cal.$field, val.dest.selectedDay.$field); })
+);
+
+
+}); //document.ready
+</script>
+</head>
+<body>
+</body>
+</html>

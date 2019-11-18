@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/spruits-2018.4.css">
+
+<style>
+body {margin:0;padding:1em;background:#ffffb0;}
+</style>
+<title>InputText</title>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/spruits2.js"></script>
+<script>
+"use strict"
+$(document).ready(function(){
+
+const InputText = spruits2.InputText;
+
+const its = [];
+
+its.push(
+  new InputText({ fieldName:"InputText 1", attrs:{ input:[{ size:"50", maxlength:"50" }, { size:"50", maxlength:"50" }] } }),
+  new InputText({ fieldName:"InputText 2", attrs:{ input:{ size:"10", maxlength:"10" } } }),
+  new InputText({ fieldName:"InputText 3", size:"5" })
+);
+
+//****************************************************************************************************************************************************************************
+$("body").append(
+  "<h4>InputText</h4>", its.map(comp => $("<div>").append(comp.$field))
+);
+
+
+}); //document.ready
+</script>
+</head>
+<body>
+</body>
+</html>

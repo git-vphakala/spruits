@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/spruits-2018.9.css">
+
+<style id="spruits-app-styles">
+body {margin:0;padding:1em;background:#ffffb0;}
+</style>
+<title>InputRadioButton</title>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/spruits2.js"></script>
+<script>
+"use strict"
+$(document).ready(function(){
+
+const Component = spruits2.Component;
+
+const testcases = [];
+
+//****************************************************************************************************************************************************************************
+$("#spruits-app-styles").append(
+  /* The radiobutton */
+  '.radiobutton {',
+  'display: block;',
+  'cursor: pointer;',
+  '}',
+
+  /* Hide the browser default radio button */
+  '.radiobutton input {',
+  'opacity: 0;',
+  'cursor: pointer;',
+  '}',
+
+  /* Create a custom radio button */
+  '.rb-checkmark {',
+  'height: 1em;',
+  'width: 1em;',
+  'background-color: #ffff00;',
+  'display:inline-block;',
+  'border-radius: 50%;',
+  'border-bottom:1px solid #999900;',
+  'border-right:1px solid #999900;',
+  'margin-left:-1em;',
+  '}',
+
+  /* On mouse-over, add a grey background color */
+  '.radiobutton:hover input ~ .rb-checkmark {',
+  'background-color: #999900;',
+  '}',
+
+  /* Create the indicator (the dot/circle - hidden when not checked) */
+  '.rb-checkmark:after {',
+  'content: "";',
+  'display: inline-block;',
+  'background-color:#FFFF00;',
+  '}',
+
+  /* Show the indicator (dot/circle) when checked */
+  '.radiobutton input:checked ~ .rb-checkmark:after {',
+  'display: inline-block;',
+  'background-color:#333300;',  
+  '}',
+
+  /* Style the indicator (dot/circle) */
+  '.radiobutton .rb-checkmark:after {',
+  'width: 0.5em;',
+  'height: 0.5em;',
+  'border-radius: 50%;',
+  'margin-left:0.25em;',
+  'margin-bottom:0.125em;',
+  '}'
+);
+
+//****************************************************************************************************************************************************************************
+function RadioGroup(args) {
+  let
+  radioButtons =              args.radioButtons,
+  attrs =                     args.attrs,
+  custom =                    args.custom,
+
+  attrsRadioButtonDiv =       (attrs && attrs.radioButton) ? attrs.radioButton.div : { "padding-left":"1em" },
+  attrsRadioButtonSpan =      (attrs && attrs.radioButton) ? attrs.radioButton.span : {},
+  attrsRadioButtonInputName = (attrs && attrs.radioButton && attrs.radioButton.input) ? attrs.radioButton.input.name : args.fieldName,
+  createRadioButton;
+
+  createRadioButton = function(name, value) {
+    let
+    $checkmark,
+    $input = $("<input>", { type:"radio", name:name, value:value }),
+    $div = $("<div>").css(attrsRadioButtonDiv).append(
+      $("<span>").css(attrsRadioButtonSpan).html(value),
+      $input
+    ),
+    handleClickCheckbox;
+
+    handleClickCheckbox = function(e) {
+      e.preventDefault();
+      $input[0].checked = $input[0].checked ? false : true;
+    };
+    
+    if (custom !== false) {
+      $div.addClass("radiobutton");
+      $input.css("margin", "0");
+      $checkmark = $("<span>", { class:"rb-checkmark" }).on("click", handleClickCheckbox);
+      $div.append($checkmark);
+    }
+    return $div;
+  };
+  
+  args.$field = $("<div>", { class:"spruit-field" });
+  Component.call(this, args);
+  
+  this.$field.append(radioButtons.map(buttonValue => { return createRadioButton(attrsRadioButtonInputName, buttonValue); }));
+}
+testcases.push(
+  new RadioGroup({ fieldName:"Gender", radioButtons:[ "Male", "Female", "Other" ],
+		   attrs:{ radioButton:{ div:{ "padding-left":"1em" }, span:{ display:"inline-block", width:"5em" }, input:{ name:"gender-1" } }} }),
+  new RadioGroup({ fieldName:"Gender", radioButtons:[ "Male", "Female", "Other" ], custom:false,
+		   attrs:{ radioButton:{ div:{ "padding-left":"1em" }, span:{ display:"inline-block", width:"5em" }, input:{ name:"gender-2" } }} })
+);
+
+//****************************************************************************************************************************************************************************
+$("body").append(
+  "<h4>InputRadioButton</h4>", testcases.map(testcase => testcase.$field)
+);
+
+
+}); //document.ready
+</script>
+</head>
+<body>
+</body>
+</html>

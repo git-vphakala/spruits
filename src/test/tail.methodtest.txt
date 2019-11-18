@@ -1,0 +1,6 @@
+}); //document.ready
+</script>
+</head>
+<body>
+</body>
+</html>

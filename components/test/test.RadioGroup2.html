@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/spruits-2018.9.css">
+
+<style id="spruits-app-styles">
+body {margin:0;padding:1em;background:#ffffb0;}
+</style>
+<title>RadioGroup2</title>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/spruits2.js"></script>
+<script>
+"use strict"
+$(document).ready(function(){
+
+const Component = spruits2.Component;
+
+const testcases = [];
+
+//****************************************************************************************************************************************************************************
+function RadioGroup2(args) {
+  let
+  buttonNames = args.buttonNames,
+  
+  RadioButton = function(args) {
+    let groupName = args.groupName;
+    
+    Component.call(this, args);
+    this.$field.addClass("radiobutton").append(
+      $("<input>", { type:"radio", name:groupName, value:this.name })
+    );
+  };
+
+  Component.call(this, args);
+
+  buttonNames.map(buttonName => {
+    return new RadioButton({ fieldName:buttonName, groupName:this.name }); // , attrs:{ label:{ class:"rb-label" } }
+  }).forEach(comp => { this.$field.append(comp.$field); });
+}
+$("#spruits-app-styles").append(".radiobutton { display:block; padding-left:1em; }");
+
+testcases.push({ $field:$("<div>", { style:"height:1em" }) }, new RadioGroup2({ fieldName:"Gender,v2", buttonNames:[ "Male", "Female", "Other" ] }));
+
+
+//****************************************************************************************************************************************************************************
+$("body").append(
+  "<h4>RadioGroup2</h4>", testcases.map(testcase => testcase.$field)
+);
+
+
+}); //document.ready
+</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/spruits-2018.4.css">
+
+<style>
+body {margin:0;padding:1em;background:#ffffb0;}
+</style>
+<title>DecimalDigitString</title>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/spruits2.js"></script>
+<script>
+"use strict"
+$(document).ready(function(){
+
+const Component = spruits2.Component;
+const DecimalDigitString = spruits2.DecimalDigitString;
+
+const testcases = [];
+
+const Testcase = function(ddstr, val) {
+  Component.call(this, { insertLabel:false });
+  
+  if (val) ddstr.set("val", val);  
+  this.$field.append(ddstr.$field, "<hr/>");
+}
+testcases.push(new Testcase( new DecimalDigitString({ fieldName:"DecimalDigitString 1" }) ));
+testcases.push(new Testcase( new DecimalDigitString({ fieldName:"DecimalDigitString 2" }), "12.12345" ));
+testcases.push(new Testcase( new DecimalDigitString({ fieldName:"DecimalDigitString 3" }), "1.0" ));
+
+//****************************************************************************************************************************************************************************
+$("body").append(
+  "<h4>DecimalDigitString</h4>", testcases.map(testcase => testcase.$field)
+);
+
+
+}); //document.ready
+</script>
+</head>
+<body>
+</body>
+</html>

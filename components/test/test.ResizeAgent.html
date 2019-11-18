@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/spruits-2018.9.css">
+
+<style>
+body {margin:0;padding:1em;background:#ffffb0;}
+</style>
+<title>ResizeAgent</title>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/spruits2.js"></script>
+<script>
+"use strict"
+$(document).ready(function(){
+
+const Component = spruits2.Component;
+
+const testcases = [];
+
+const Testcase = function(ra) {
+  let $width = $("<span>");
+  Component.call(this, { fieldName:ra.name });
+
+  this.resize = function(e) {
+    $width.html("" + $(window).width());
+  };
+  
+  $(window).on("resize", this.resize);
+  
+  this.$field.append($("<div>").append( "Width: ", $width ));
+  $(window).trigger("resize");
+};
+
+testcases.push(new Testcase({ name:"Resize Agent" }));
+
+//****************************************************************************************************************************************************************************
+$("body").append(
+  "<h4>resize-event</h4>", testcases.map(testcase => testcase.$field)
+);
+
+
+}); //document.ready
+</script>
+</head>
+<body>
+</body>
+</html>

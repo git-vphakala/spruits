@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/spruits-2018.9.css">
+
+<style>
+body {margin:0;padding:1em;background:#ffffb0;}
+</style>
+<title>AlphaNumericString</title>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/spruits2.js"></script>
+<script>
+"use strict"
+$(document).ready(function(){
+
+const Component = spruits2.Component;
+const AlphaNumericString = spruits2.AlphaNumericString;
+
+const testcases = [];
+
+const Testcase = function(anstr, val) {
+  Component.call(this, { insertLabel:false });
+  
+  if (val) anstr.set("val", val);  
+  this.$field.append(anstr.$field, "<hr/>");
+  this.comp = anstr;
+};
+
+testcases.push(new Testcase( new AlphaNumericString({ fieldName:"AlphaNumericString 1" }) ));
+testcases.push(new Testcase( new AlphaNumericString({ fieldName:"AlphaNumericString 2" }), "1234567890" ));
+testcases.push(new Testcase( new AlphaNumericString({ fieldName:"AlphaNumericString 3" }), "acdc" ));
+
+const Validator = function() {
+  Component.call(this, { fieldName:"Validator" });
+  
+  testcases.forEach(testcase => {
+    if (testcase.comp) {
+      this.$field.append($("<div>").html(testcase.comp.name + ":" + JSON.stringify(testcase.comp.get("valid"))));
+    }
+  });
+};
+testcases.push(new Validator());
+
+//****************************************************************************************************************************************************************************
+$("body").append(
+  "<h4>AlphaNumericString</h4>", testcases.map(testcase => testcase.$field)
+);
+
+
+}); //document.ready
+</script>
+</head>
+<body>
+</body>
+</html>
